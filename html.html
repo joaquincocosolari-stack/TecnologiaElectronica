@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard IoT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0073e6;
+      color: white;
+      padding: 15px;
+      font-size: 1.2em;
+    }
+    .grafico {
+      margin: 30px auto;
+      max-width: 90%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    📊 Monitoreo de Sensores
+  </header>
+
+  <div class="grafico">
+    <!-- Aquí pegas tu iframe de ThingSpeak -->
+    <iframe width="450" height="260" 
+      style="border: 1px solid #cccccc;" 
+      src="https://thingspeak.com/channels/3039984/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15">
+    </iframe>
+  </div>
+
+</body>
+</html>
