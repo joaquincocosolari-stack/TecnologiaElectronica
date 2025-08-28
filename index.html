@@ -51,7 +51,7 @@
     }
     .grafico iframe {
       width: 100%;
-      max-width: 700px;  /* límite en pantallas grandes */
+      max-width: 700px;
       height: 350px;
       border-radius: 12px;
       border: none;
@@ -83,9 +83,10 @@
       margin-bottom: 15px;
       color: #38bdf8;
     }
-    .pcb img {
-      max-width: 90%;
-      height: auto;
+    #viewer {
+      width: 90%;
+      height: 500px;
+      margin: auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
@@ -115,9 +116,9 @@
 
     <section class="grafico">
       <h2>📊 Dashboard en Tiempo Real</h2>
-    <iframe 
-      src="https://thingspeak.com/channels/3039984/charts/1?bgcolor=%230f172a&color=%23facc15&dynamic=true&results=10&type=line&update=15&width=700&height=350">
-    </iframe>
+      <iframe 
+        src="https://thingspeak.com/channels/3039984/charts/1?bgcolor=%230f172a&color=%23facc15&dynamic=true&results=10&type=line&update=15&width=700&height=350">
+      </iframe>
     </section>
 
     <section class="features">
@@ -140,8 +141,7 @@
 
     <section class="pcb">
       <h2>🔧 Diseño de PCB</h2>
-      <!-- Reemplaza pcb_ejemplo.jpg por la ruta real de tu imagen -->
-      <img src="pcb_ejemplo.jpg" alt="Diseño de PCB del sistema IoT">
+      <div id="viewer"></div>
     </section>
   </div>
 
@@ -149,8 +149,62 @@
     Proyecto académico – UTN Paraná | Appendino · Coco · Colandre
   </footer>
 
+  <!-- Three.js y visor GLTF -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+    renderer.setSize(window.innerWidth * 0.9, 500);
+    renderer.setClearColor(0x0f172a, 1);
+    document.getElementById("viewer").appendChild(renderer.domElement);
+
+    // Luces
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5,5,5);
+    scene.add(dirLight);
+
+    // Controles
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // Cargar modelo
+    const loader = new THREE.GLTFLoader();
+    loader.load("pcb_modelo.glb", function(gltf){
+      const model = gltf.scene;
+      model.scale.set(2,2,2); // ajustar escala si es necesario
+      scene.add(model);
+
+      // Ajustar cámara automáticamente al modelo
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      controls.target.copy(center);
+      camera.position.set(center.x + size.x*1.5, center.y + size.y*1.5, center.z + size.z*1.5);
+      camera.lookAt(center);
+    });
+
+    // Animación
+    function animate(){
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Redimensionar
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / 500;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth * 0.9, 500);
+    });
+  </script>
 </body>
 </html>
+
+
 
 
 
