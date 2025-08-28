@@ -41,12 +41,23 @@
       font-size: 1.1rem;
     }
     .grafico {
+      margin: 40px auto;
       text-align: center;
-      margin: 40px 0;
+      width: 100%;
     }
-    iframe {
+    .grafico h2 {
+      margin-bottom: 15px;
+      color: #facc15;
+    }
+    .grafico iframe {
+      width: 100%;
+      max-width: 700px;  /* límite en pantallas grandes */
+      height: 350px;
       border-radius: 12px;
+      border: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      display: block;
+      margin: auto;
     }
     .features {
       display: grid;
@@ -68,8 +79,13 @@
       text-align: center;
       margin-top: 50px;
     }
+    .pcb h2 {
+      margin-bottom: 15px;
+      color: #38bdf8;
+    }
     .pcb img {
-      max-width: 80%;
+      max-width: 90%;
+      height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
@@ -99,7 +115,7 @@
 
     <section class="grafico">
       <h2>📊 Dashboard en Tiempo Real</h2>
-      <iframe width="600" height="350"
+      <iframe 
         src="https://thingspeak.com/channels/3039984/charts/1?bgcolor=%230f172a&color=%23facc15&dynamic=true&results=10&type=line&update=15">
       </iframe>
     </section>
@@ -124,7 +140,7 @@
 
     <section class="pcb">
       <h2>🔧 Diseño de PCB</h2>
-      <!-- Aquí podés poner la imagen real de tu PCB -->
+      <!-- Reemplaza pcb_ejemplo.jpg por la ruta real de tu imagen -->
       <img src="pcb_ejemplo.jpg" alt="Diseño de PCB del sistema IoT">
     </section>
   </div>
@@ -135,6 +151,7 @@
 
 </body>
 </html>
+
 
 
 
